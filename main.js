@@ -1,24 +1,108 @@
+var toStr = function(object){
+	var key, str = '';
+	for (key in object){
+		if( !isNaN(parseFloat(key))) {
+			str += '	' + toStr(object[key]) + '\n';
+		} else if (typeof object[key]  == 'object') {
+			str += key + ': \n' + toStr(object[key]);
+		} else if (key != 'toStr') {
+			str += key + ': ' + object[key] + ', ';
+		}
+	}
+	// get rid of the last comma
+	return str;
+};
+
+// constructors
+
 var FoodItem = function (name, calories, vegan, glutenFree, citrusFree) {
 	this.name = name;
 	this.calories = calories;
 	this.vegan = vegan;
 	this.glutenFree = glutenFree;
 	this.citrusFree = citrusFree;
-}
+};
 
-FoodItem.prototype.toString = function () {
-	var vegan = this.vegan ? 'vegan' : 'not vegan',
-			glutenFree = this.glutenFree ? 'gluten free' : 'contains gluten',
-			citrusFree = this.citrusFree ? 'citrus free' : 'contains citrus';
-	return 'name: ' + this.name +
-		', calories: ' + this.calories +
-		', dietary information: ' + vegan + ', ' + glutenFree + ', ' + citrusFree;
-}
+var Drink = function  (name, description, price, ingredients) {
+	this.name = name;
+	this.description = description;
+	this.price = price;
+	this.ingredients = ingredients;
+};
+
+var Plate = function  (name, description, price, ingredients) {
+	this.name = name;
+	this.description = description;
+	this.price = price;
+	this.ingredients = ingredients;
+};
+
+var Order = function (plates) {
+	this.plates = plates;
+};
+
+var Menu = function (plates) {
+	this.plates = plates;
+};
+
+var Restaurant = function (name, description, menu) {
+	this.name = name;
+	this.description = description;
+	this.menu = menu;
+};
+
+var Customer = function (dietaryPreference) {
+	this.dietaryPreference = dietaryPreference;
+};
+
+FoodItem.prototype.toStr = function () {
+	return toStr(this);
+};
+
+Drink.prototype.toStr = function () {
+	return toStr(this);
+};
+
+Plate.prototype.toStr = function () {
+	return toStr(this);
+};
+
+Order.prototype.toStr = function () {
+	return toStr(this);
+};
+
+Menu.prototype.toStr = function () {
+	return toStr(this);
+};
+
+Restaurant.prototype.toStr = function () {
+	return toStr(this);
+};
+
+var tequila = new FoodItem('tequila', 300, true, false, true),
+		limeJuice = new FoodItem('lime juice', 100, true, true, false),
+		rice = new FoodItem('Rice', 10, true, false, true),
+		avocados = new FoodItem('avocados', 50, true, true, true),
+		margarita = new Drink('Margarita', 'delicious drink', 10, [tequila, limeJuice]);
 
 var steak = new FoodItem('steak', 1000, false, true, true),
 		baguette = new FoodItem('Baguette', 200, true, false, true),
 		orange = new FoodItem('orange', 50, true, true, false);
 
-console.log(steak.toString());
-console.log(baguette.toString());
-console.log(orange.toString());
+var burrito = new Plate('Burrito', 'Mexican food', 4, [steak, rice]),
+		guacamole = new Plate('Guacamole', 'Made from avocados', 10, [avocados, limeJuice]),
+		menu = new Menu([burrito, guacamole, margarita]);
+
+var chicos = new Restaurant('Chico\'s', 'The best restaurant in town', menu);
+
+
+
+// console.log(steak.toStr());
+// console.log(baguette.toStr());
+// console.log(orange.toStr());
+
+// console.log(margarita.toStr());
+// console.log(burrito.toStr());
+
+// console.log(menu.toStr());
+console.log(chicos.toStr());
