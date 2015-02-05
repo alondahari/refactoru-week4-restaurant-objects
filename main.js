@@ -15,11 +15,23 @@ var toStr = function(object, tab){
 	return str;
 };
 
-var create = function(constructor) {
-	var name = this.name || '';
-	return $("<div").addClass(constructor).text(name);
+// var create = function() {
+// 	var name = this.name || '';
+// 	$this = $("<div>").text(name);
+// 	for (key in this){
+// 		if (!(this[key] instanceof Function) && this[key] instanceof Object) {
+// 			if (this[key] instanceof Array) {
+// 				this[key].forEach(function(val){
+// 					$this.append(val.create());
+// 				})
+// 			} else {
+// 				$this.append(this[key].create());
+// 			}
+// 		};
+// 	}
+// 	return $this;
 
-}
+// }
 
 // constructors
 
@@ -67,6 +79,7 @@ var constructors = [FoodItem, Drink, Plate, Order, Menu, Restaurant];
 
 constructors.forEach(function(value) {
 	value.prototype.toStr = toStr;
+	value.prototype.create = create;
 });
 
 
@@ -86,9 +99,8 @@ var burrito = new Plate('Burrito', 'Mexican food', 4, [steak, rice]),
 
 var chicos = new Restaurant('Chico\'s', 'The best restaurant in town', menu);
 
-$("document").on("ready", function() {
-
-
+$(document).on("ready", function() {
+$("body").append(margarita.create());
 
 
 
@@ -102,4 +114,4 @@ $("document").on("ready", function() {
 // console.log(burrito.toStr());
 
 // console.log(menu.toStr());
-console.log(chicos.toStr());
+// console.log(chicos.toStr());
