@@ -15,6 +15,12 @@ var toStr = function(object, tab){
 	return str;
 };
 
+var create = function(constructor) {
+	var name = this.name || '';
+	return $("<div").addClass(constructor).text(name);
+
+}
+
 // constructors
 
 var FoodItem = function (name, calories, vegan, glutenFree, citrusFree) {
@@ -80,7 +86,13 @@ var burrito = new Plate('Burrito', 'Mexican food', 4, [steak, rice]),
 
 var chicos = new Restaurant('Chico\'s', 'The best restaurant in town', menu);
 
+$("document").on("ready", function() {
 
+
+
+
+
+});
 
 // console.log(steak.toStr());
 // console.log(baguette.toStr());
