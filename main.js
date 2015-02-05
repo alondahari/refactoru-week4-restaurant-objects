@@ -1,10 +1,12 @@
-var toStr = function(object){
+var toStr = function(object, tab){
+	object = object || this;
+	tab = tab || '';
 	var key, str = '';
 	for (key in object){
 		if( !isNaN(parseFloat(key))) {
-			str += '	' + toStr(object[key]) + '\n';
+			str += tab + toStr(object[key], tab + '  ') + '\n';
 		} else if (typeof object[key]  == 'object') {
-			str += key + ': \n' + toStr(object[key]);
+			str += key + ': \n' + toStr(object[key], tab + '  ');
 		} else if (key != 'toStr') {
 			str += key + ': ' + object[key] + ', ';
 		}
@@ -55,29 +57,12 @@ var Customer = function (dietaryPreference) {
 	this.dietaryPreference = dietaryPreference;
 };
 
-FoodItem.prototype.toStr = function () {
-	return toStr(this);
-};
+var constructors = [FoodItem, Drink, Plate, Order, Menu, Restaurant];
 
-Drink.prototype.toStr = function () {
-	return toStr(this);
-};
+constructors.forEach(function(value) {
+	value.prototype.toStr = toStr;
+});
 
-Plate.prototype.toStr = function () {
-	return toStr(this);
-};
-
-Order.prototype.toStr = function () {
-	return toStr(this);
-};
-
-Menu.prototype.toStr = function () {
-	return toStr(this);
-};
-
-Restaurant.prototype.toStr = function () {
-	return toStr(this);
-};
 
 var tequila = new FoodItem('tequila', 300, true, false, true),
 		limeJuice = new FoodItem('lime juice', 100, true, true, false),
