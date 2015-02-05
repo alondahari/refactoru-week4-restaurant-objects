@@ -1,10 +1,63 @@
 body {
 	width: 90%;
 	margin:auto;
+	text-align: center;
+	background-color: peachpuff;
+}
+
+p {
+	margin: 12px;
 }
 
 .restaurant {
-	text-align: center;
-	padding: 20px;
+	padding: 10px;
+	font-size: 2rem;
+	overflow: hidden;
+}
 
+.menu {
+	padding-top: 30px;
+	float: left;
+	background-color: #999;
+	clear: both;
+	width: 40%;
+	font-size: 1.5rem;
+}
+
+.menu:before {
+	content: 'MENU';
+	font-size: 2rem;
+	text-decoration: underline;
+}
+
+.plate, .drink{
+	margin-top: 30px;
+	cursor: pointer;
+}
+
+
+.drink:before {
+	content: 'DRINKS';
+	text-decoration: underline;
+	font-style: italic;
+	font-size: 0.9rem;
+}
+.food-item {
+	font-size: 1rem;
+}
+
+.order{
+	float: right;
+	width: 50%;
+}
+
+.order:before {
+	content: 'YOUR ORDER';
+	font-size: 2rem;
+	text-decoration: underline;
+}
+
+.order p{
+	font-size: .9rem;
+	text-align: left;
 }

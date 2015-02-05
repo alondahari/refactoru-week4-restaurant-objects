@@ -15,23 +15,29 @@ var toStr = function(object, tab){
 	return str;
 };
 
-// var create = function() {
-// 	var name = this.name || '';
-// 	$this = $("<div>").text(name);
-// 	for (key in this){
-// 		if (!(this[key] instanceof Function) && this[key] instanceof Object) {
-// 			if (this[key] instanceof Array) {
-// 				this[key].forEach(function(val){
-// 					$this.append(val.create());
-// 				})
-// 			} else {
-// 				$this.append(this[key].create());
-// 			}
-// 		};
-// 	}
-// 	return $this;
+var create = function() {
+	var name = this.name || '';
+	var price = this.price || 0;
+	var p = $("<p>").text(name)
+		.attr('price', price);
+	var $this = $("<div>")
+		.addClass(this.class)
+		.prepend(p);
 
-// }
+	for (key in this){
+		if (!(this[key] instanceof Function) && this[key] instanceof Object) {
+			if (this[key] instanceof Array) {
+				this[key].forEach(function(val){
+					$this.append(val.create());
+				})
+			} else {
+				$this.append(this[key].create());
+			}
+		};
+	}
+	return $this;
+
+}
 
 // constructors
 
@@ -41,6 +47,7 @@ var FoodItem = function (name, calories, vegan, glutenFree, citrusFree) {
 	this.vegan = vegan;
 	this.glutenFree = glutenFree;
 	this.citrusFree = citrusFree;
+	this.class = 'food-item'
 };
 
 var Drink = function  (name, description, price, ingredients) {
@@ -48,6 +55,7 @@ var Drink = function  (name, description, price, ingredients) {
 	this.description = description;
 	this.price = price;
 	this.ingredients = ingredients;
+	this.class = 'drink'
 };
 
 var Plate = function  (name, description, price, ingredients) {
@@ -55,24 +63,29 @@ var Plate = function  (name, description, price, ingredients) {
 	this.description = description;
 	this.price = price;
 	this.ingredients = ingredients;
+	this.class = 'plate'
 };
 
 var Order = function (plates) {
 	this.plates = plates;
+	this.class = 'order'
 };
 
 var Menu = function (plates) {
 	this.plates = plates;
+	this.class = 'menu'
 };
 
 var Restaurant = function (name, description, menu) {
 	this.name = name;
 	this.description = description;
 	this.menu = menu;
+	this.class = 'restaurant'
 };
 
 var Customer = function (dietaryPreference) {
 	this.dietaryPreference = dietaryPreference;
+	this.class = 'customer'
 };
 
 var constructors = [FoodItem, Drink, Plate, Order, Menu, Restaurant];
@@ -97,12 +110,23 @@ var burrito = new Plate('Burrito', 'Mexican food', 4, [steak, rice]),
 		guacamole = new Plate('Guacamole', 'Made from avocados', 10, [avocados, limeJuice]),
 		menu = new Menu([burrito, guacamole, margarita]);
 
+var order = new Order();
+
 var chicos = new Restaurant('Chico\'s', 'The best restaurant in town', menu);
 
 $(document).on("ready", function() {
-$("body").append(margarita.create());
+	var $order = order.create();
+	var $restaurant = chicos.create().append($order);
+	$order.append('<h6 class="total">Your Total:</h6>')
+	$("body").append($restaurant);
 
-
+	$('.menu').on('click', '.plate, .drink', function(){
+		$(this).children('p').clone().prependTo($order);
+		var total = Array.prototype.reduce.call($order.children('p'), function(mem, val){
+			return mem + parseFloat($(val).attr('price'));
+		}, 0);
+		$('.total').text('Your Total: $' + total )
+	})
 
 });
 
